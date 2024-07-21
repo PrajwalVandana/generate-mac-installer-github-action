@@ -2,7 +2,6 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import path from 'path'
 import { ArgumentBuilder } from '@akiojin/argument-builder'
-import PackagePlistHelper from './PackagePlistHelper'
 
 const IsMacOS = process.platform.toLowerCase() === 'darwin'
 
@@ -13,12 +12,10 @@ function GetOutputPath()
 
 async function ExportPKG(): Promise<void>
 {
-    const plist = await PackagePlistHelper.Export(core.getInput('bundle-path'))
 
     const outputPath = GetOutputPath()
     const builder = new ArgumentBuilder()
         .Append('--root', core.getInput('root-directory'))
-        .Append('--component-plist', plist)
         .Append('--identifier', core.getInput('identifier'))
         .Append('--version', core.getInput('version'))
         .Append('--install-location', core.getInput('install-location'))
